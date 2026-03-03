@@ -133,3 +133,10 @@ dmypy.json
 .vscode/
 *.swp
 *.swo
+
+# Custom Scripts & Security Artifacts
+*.rules
+*.log
+iptables_backup_*
+credentials.json
+.env.private

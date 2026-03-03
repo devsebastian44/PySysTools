@@ -1,0 +1,4 @@
+id,hostname,ip_address,os_type,status
+1,server-web-01,192.168.1.10,linux,active
+2,db-primary-01,192.168.1.50,linux,active
+3,win-workstation-05,192.168.1.100,windows,offline

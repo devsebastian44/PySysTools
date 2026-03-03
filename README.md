@@ -1,101 +1,76 @@
-# PySysTools (sysadmin_utils)
+# PySysTools - Enterprise SysAdmin & Security Operations
 
 ![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![DevSecOps](https://img.shields.io/badge/DevSecOps-Ready-brightgreen)
 
-**Suite Profesional de Utilidades en Python para Administración de Sistemas, Seguridad y Redes.**
+## 🎯 Objetivo Técnico y Profesional
 
-Este repositorio contiene una colección modular de herramientas diseñadas para automatizar tareas comunes de SysAdmins y mejorar la productividad. El código ha sido auditado y refactorizado para seguir principios de arquitectura limpia y escalabilidad.
+**PySysTools** es una suite modular y escalable diseñada para ingenieros de DevSecOps y Administradores de Sistemas. Su objetivo es automatizar operaciones de infraestructura, escanear vulnerabilidades y gestionar redes mediante un enfoque de **Seguridad por Diseño (Security by Design)**.
+Este proyecto está orientado tanto para laboratorios privados de investigación y despliegues empresariales (utilizando GitLab como fuente de verdad y canalización de CI/CD), como para demostraciones públicas en portafolios (GitHub).
 
-## 🚀 Instalación
+> **Enfoque Ético:** Las herramientas de seguridad incluidas (ej. escáneres de malware, analistas de hash) deben usarse de manera legal y ética. El autor no asume responsabilidad por el mal uso de las capacidades ofensivas/defensivas provistas.
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/tu-usuario/Proyectos-Python.git
-   cd Proyectos-Python
-   ```
+## 🏛️ Arquitectura del Repositorio
 
-2. **Crear entorno virtual (Recomendado):**
-   ```bash
-   python -m venv venv
-   .\venv\Scripts\activate  # Windows
-   # source venv/bin/activate  # Linux/Mac
-   ```
-
-3. **Instalar dependencias y el paquete:**
-   ```bash
-   pip install -r requirements.txt
-   pip install -e .
-   ```
-
-## 🛠️ Uso del CLI
-
-El proyecto incluye un CLI unificado (`main.py`) para acceder a todas las herramientas.
-
-### Seguridad
-
-**Generar contraseña segura:**
-```bash
-python src/sysadmin_utils/main.py gen-pass -l 20
-```
-
-**Escanear directorio en busca de malware (por hash):**
-```bash
-python src/sysadmin_utils/main.py scan-malware "C:/Downloads"
-```
-
-**Verificar hash de un archivo:**
-```bash
-python src/sysadmin_utils/main.py hash-check "archivo.exe"
-```
-
-### Redes
-
-**Monitor de tráfico en tiempo real:**
-```bash
-python src/sysadmin_utils/main.py net-monitor
-```
-
-**Listar conexiones activas:**
-```bash
-python src/sysadmin_utils/main.py list-connections
-```
-
-**Probar conectividad a Internet:**
-```bash
-python src/sysadmin_utils/main.py check-internet
-```
-
-### Sistema y Datos
-
-**Organizar archivos por extensión:**
-```bash
-python src/sysadmin_utils/main.py organize "C:/Users/Usuario/Downloads" --watch
-```
-
-**Buscar archivos por extensión:**
-```bash
-python src/sysadmin_utils/main.py search "C:/Proyectos" "py"
-```
-
-## 📂 Estructura del Proyecto
+La arquitectura sigue principios de Clean Code y está claramente estructurada para un enfoque Enterprise:
 
 ```text
-src/
-└── sysadmin_utils/
-    ├── security/    # Hash utils, Malware scanner, Password manager
-    ├── network/     # Traffic monitor, Connectivity, Active connections, FTP
-    ├── system/      # Automation, Formatting, Power control
-    ├── data/        # File search, DB connector, File manager
-    ├── ui/          # Notifications, Windows, Calendar
-    ├── utils/       # Config, Logger
-    └── main.py      # CLI Entry point
+/
+├── configs/          # Configuraciones base y plantillas JSON/YAML (No sensibles)
+├── data/             # Muestras CSV y estructuras de datos para tests
+├── diagrams/         # Diagramas Mermaid (Arquitectura, Flujos)
+├── docs/             # Documentación técnica extendida
+├── examples/         # Ejemplos de integración de la librería
+├── scripts/          # Automatizaciones operativas (incluye publish_public.ps1)
+├── src/              # Código fuente principal de la suite
+│   └── sysadmin_utils/
+│       ├── data/     
+│       ├── network/  
+│       ├── security/ 
+│       ├── system/   
+│       ├── ui/       
+│       └── utils/
+├── tests/            # Suite de pruebas unitarias y de integración (Excluido de GitHub)
+└── .gitlab-ci.yml    # Pipeline CI/CD Privado (Linting, Unit Testing, SAST)
+```
+
+## 🔄 Flujo DevSecOps y Separación de Entornos (GitLab -> GitHub)
+
+Este repositorio emplea una estrategia avanzada de separación de entornos mitigando el riesgo de fuga de datos o exposición de componentes críticos:
+
+### GitLab (Laboratorio Privado - Source of Truth)
+En **GitLab** reside el entorno completo de trabajo. Esto incluye ramas de desarrollo, pruebas unitarias (`tests/`), scripts de integración privada, configuraciones reales, pipeline de CI/CD activo (`.gitlab-ci.yml`) y automatización profunda.
+
+### GitHub (Portafolio Público Sanitizado)
+En **GitHub (rama `public`)** reside la versión depurada y presentable. Se excluyen pruebas, infraestructura privada, secretos y configuraciones.
+
+### `publish_public.ps1`: Automatización de Sanitización
+El flujo oficial se apoya en el script `scripts/publish_public.ps1` que funciona como un guardián de publicación:
+1. **Verificación & Limpieza:** Asegura que estemos en la rama principal limpios e indexa con GitLab.
+2. **Aislamiento de Rama:** Crea una rama temporal (`public`).
+3. **Purgado de Seguridad:** Elimina forzosamente carpetas críticas del caché del repositorio (`tests/`, `configs/`, CI interno) para que no sean expuestas.
+4. **Despliegue GitHub:** Empuja esta versión completamente sanitizada (pero funcional a nivel demostrativo) de forma forzada a GitHub.
+5. **Restauración:** Devuelve el espacio de trabajo local al estado de laboratorio privado intacto.
+
+## 🚀 Uso General del CLI
+
+El proyecto emplea un CLI orquestador:
+
+```bash
+# Instalación en el entorno
+pip install -e .
+
+# CLI General de Seguridad
+sysadmin_utils gen-pass -l 20
+sysadmin_utils scan-malware "C:/Downloads"
+
+# Redes
+sysadmin_utils net-monitor
 ```
 
 ## 🤝 Contribución
-
-Si deseas contribuir, por favor sigue los estándares de código (PEP 8) y asegúrate de agregar tests para nuevas funcionalidades.
+Las contribuciones se aceptan mediante PRs en la rama pública (o interna si tienes acceso al GitLab original). Se aplicará linter `flake8`, pruebas con `pytest` y revisión estática de seguridad (`bandit`).
 
 ## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT.
+Distribuido bajo la Licencia MIT.

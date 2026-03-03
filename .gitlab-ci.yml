@@ -1,0 +1,34 @@
+stages:
+  - lint
+  - test
+  - security
+
+variables:
+  PYTHON_VERSION: "3.9"
+
+image: python:${PYTHON_VERSION}
+
+before_script:
+  - python -m venv venv
+  - source venv/bin/activate
+  - pip install --upgrade pip
+  - if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+  - pip install -e .
+
+linting:
+  stage: lint
+  script:
+    - pip install flake8
+    - flake8 src/ tests/
+
+unit_tests:
+  stage: test
+  script:
+    - pip install pytest pytest-cov
+    - pytest tests/ --cov=src/ --cov-report=xml
+
+sast:
+  stage: security
+  script:
+    - pip install bandit
+    - bandit -r src/ -ll -ii

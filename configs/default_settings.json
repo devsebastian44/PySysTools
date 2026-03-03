@@ -1,0 +1,14 @@
+{
+    "app_name": "PySysTools",
+    "version": "1.0.0",
+    "log_level": "INFO",
+    "features": {
+        "security_scanner": true,
+        "network_monitor": true
+    },
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "admin"
+    }
+}
