@@ -22,7 +22,7 @@ def calculate_file_hash(file_path: Path, algorithm: str = "sha256") -> str:
             hasher = hashlib.md5()
         else:
             raise ValueError("Unsupported algorithm")
-            
+
         with open(file_path, "rb") as f:
             for block in iter(lambda: f.read(4096), b""):
                 hasher.update(block)
@@ -36,11 +36,11 @@ def compare_hash_with_list(file_hash: str, hash_list_path: Path) -> bool:
     if not hash_list_path.exists():
         print(f"Hash list not found: {hash_list_path}")
         return False
-        
+
     try:
         with open(hash_list_path, 'r') as f:
             known_hashes = {line.strip() for line in f}
-            
+
         return file_hash in known_hashes
     except Exception as e:
         print(f"Error reading hash list: {e}")
@@ -50,11 +50,11 @@ def compare_hash_with_list(file_hash: str, hash_list_path: Path) -> bool:
 def interactive_check():
     """Interactive CLI for hash checking."""
     print(f"{Colors.BLUE}--- File Hash Checker ---{Colors.RESET}")
-    
+
     file_path = input("Enter file path: ").strip()
     if not file_path:
         return
-        
+
     path = Path(file_path)
     if not path.exists():
         print(f"{Colors.RED}File not found.{Colors.RESET}")

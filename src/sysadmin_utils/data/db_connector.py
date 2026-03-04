@@ -2,6 +2,7 @@ import mysql.connector
 import os
 from typing import List, Any
 
+
 class DatabaseConnector:
     """
     Handles database connections and queries.
@@ -50,11 +51,12 @@ class DatabaseConnector:
             self.connection.close()
             print("Connection closed.")
 
+
 if __name__ == "__main__":
     # Example usage
     db = DatabaseConnector()
     try:
-        db.connect() # Ensure connection is established for the example
+        db.connect()  # Ensure connection is established for the example
         results = db.execute_query("SELECT * FROM `challenges` LIMIT 5")
         for row in results:
             print(row)
