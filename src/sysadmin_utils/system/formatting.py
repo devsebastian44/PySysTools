@@ -1,6 +1,5 @@
 import shutil
 import time
-import os
 from pathlib import Path
 from typing import Dict
 

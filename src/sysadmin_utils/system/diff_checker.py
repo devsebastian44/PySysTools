@@ -2,13 +2,14 @@ import os
 import time
 from pathlib import Path
 
+
 def monitor_changes(folder_path: Path, log_file: Path):
     """
     Logs files and directories in a folder to a log file.
     """
     folder_path = Path(folder_path)
     log_file = Path(log_file)
-    
+
     if not folder_path.exists():
         print(f"Folder not found: {folder_path}")
         return
@@ -25,18 +26,24 @@ def monitor_changes(folder_path: Path, log_file: Path):
     # Abrir el archivo de registro en modo de escritura (append)
     with open(log_file, 'a', encoding='utf-8') as f:
         f.write(f'--- Estado de carpeta {folder_path} ({current_time}) ---\n')
-        
+
         # Recorrer los archivos y subcarpetas de la carpeta
         for root, dirs, files in os.walk(folder_path):
             for file in files:
                 file_path = os.path.join(root, file)
-                modified_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(file_path)))
-                f.write(f'Archivo: {file_path} ({modified_time})\n')
+                mod_time = os.path.getmtime(file_path)
+                fmt_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mod_time))
+                f.write(f'Archivo: {file_path} ({fmt_time})\n')
 
-            for dir in dirs:
-                dir_path = os.path.join(root, dir)
-                modified_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(dir_path)))
-                f.write(f'Carpeta: {dir_path} ({modified_time})\n')
+            for dir_name in dirs:
+                dir_path = os.path.join(root, dir_name)
+                mod_time = os.path.getmtime(dir_path)
+                fmt_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mod_time))
+                f.write(f'Carpeta: {dir_path} ({fmt_time})\n')
 
         f.write('\n')
 
+
+if __name__ == "__main__":
+    # Example usage
+    monitor_changes(Path("."), Path("changes.log"))

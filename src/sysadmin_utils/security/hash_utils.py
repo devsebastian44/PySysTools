@@ -62,9 +62,10 @@ def interactive_check():
 
     computed_hash = calculate_file_hash(path)
     print(f"\n{Colors.HEADER}SHA-256:{Colors.RESET} {computed_hash}")
-    
-    if hash_db:
-        db_path = Path(hash_db)
+
+    hash_db_input = input("Enter path to hash database (optional, press Enter to skip): ").strip()
+    if hash_db_input:
+        db_path = Path(hash_db_input)
         if compare_hash_with_list(computed_hash, db_path):
             msg = "[!] Hash found in database (Potentially Malicious)"
             print(f"{Colors.RED}{msg}{Colors.RESET}")

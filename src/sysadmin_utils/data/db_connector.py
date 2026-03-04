@@ -32,7 +32,8 @@ class DatabaseConnector:
     def execute_query(self, query: str) -> List[Any]:
         """Executes a SQL query and returns results."""
         if not self.connection:
-    
+            self.connect()
+
         cursor = self.connection.cursor()
         try:
             cursor.execute(query)

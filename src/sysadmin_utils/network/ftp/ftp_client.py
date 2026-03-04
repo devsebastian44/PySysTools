@@ -1,7 +1,7 @@
 import ftplib
-import os
 from pathlib import Path
 from typing import List
+
 
 class FTPClient:
     """
@@ -37,18 +37,18 @@ class FTPClient:
         """Uploads a local file to the FTP server."""
         if not self.ftp:
             self.connect()
-            
-        local_path = Path(local_path)
-        if not local_path.exists():
-            print(f"File not found: {local_path}")
+
+        local_path_obj = Path(local_path)
+        if not local_path_obj.exists():
+            print(f"File not found: {local_path_obj}")
             return
 
-        remote_filename = remote_filename or local_path.name
-        
+        remote_filename = remote_filename or local_path_obj.name
+
         try:
-            with open(local_path, "rb") as file:
+            with open(local_path_obj, "rb") as file:
                 self.ftp.storbinary(f"STOR {remote_filename}", file)
-            print(f"Uploaded {local_path} to {remote_filename}")
+            print(f"Uploaded {local_path_obj} to {remote_filename}")
         except Exception as e:
             print(f"Error uploading file: {e}")
 
@@ -56,9 +56,9 @@ class FTPClient:
         """Downloads a file from the FTP server."""
         if not self.ftp:
             self.connect()
-            
+
         local_path = local_path or remote_filename
-        
+
         try:
             with open(local_path, "wb") as file:
                 self.ftp.retrbinary(f"RETR {remote_filename}", file.write)
@@ -71,16 +71,17 @@ class FTPClient:
         if self.ftp:
             try:
                 self.ftp.quit()
-            except:
+            except Exception:
                 self.ftp.close()
             print("FTP connection closed.")
+
 
 if __name__ == "__main__":
     # Example usage (Test server credentials from original script)
     HOST = "ftp.dlptest.com"
     USER = "dlpuser@dlptest.com"
     PASS = "SzMf7rTE4pCrf9dV286GuNe4N"
-    
+
     client = FTPClient(HOST, USER, PASS)
     try:
         client.connect()

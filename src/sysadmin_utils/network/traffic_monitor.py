@@ -1,6 +1,6 @@
-import psutil
-import time
 import os
+import time
+import psutil
 import pandas as pd
 
 
@@ -28,20 +28,20 @@ def monitor_traffic(delay: float = 1.0):
     Monitors network traffic and prints statistics to the console.
     """
     io = psutil.net_io_counters(pernic=True)
-    
+
     try:
         while True:
             time.sleep(delay)
             io_2 = psutil.net_io_counters(pernic=True)
             data = []
-            
+
             for iface, iface_io in io.items():
                 if iface not in io_2:
                     continue
-                    
+
                 upload_speed = io_2[iface].bytes_sent - iface_io.bytes_sent
                 download_speed = io_2[iface].bytes_recv - iface_io.bytes_recv
-                
+
                 data.append({
                     "Interface": iface,
                     "Download Total": get_size(io_2[iface].bytes_recv),
@@ -50,21 +50,20 @@ def monitor_traffic(delay: float = 1.0):
                     "Download Speed": f"{get_size(download_speed / delay)}/s",
                     "Raw Download": download_speed  # For sorting
                 })
-            
+
             io = io_2
             df = pd.DataFrame(data)
-            
+
             if not df.empty:
                 df.sort_values("Raw Download", inplace=True, ascending=False)
                 df.drop(columns=["Raw Download"], inplace=True)
-                
+
                 clear_screen()
                 print(df.to_string(index=False))
-                
+
     except KeyboardInterrupt:
         print("\nStopping monitor...")
-    except Exception as e:
-        print(f"An unexpected error occurred during monitoring: {e}")
+
 
 if __name__ == "__main__":
     print("Starting Network Traffic Monitor... (Ctrl+C to stop)")

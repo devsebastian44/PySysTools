@@ -5,7 +5,6 @@ try:
     from ..utils.config import Colors
 except ImportError:
     class Colors:
-        GREEN = '\033[32m'
         RESET = '\033[39m'
         HEADER = '\033[95m'
 
@@ -13,13 +12,13 @@ except ImportError:
 def search_files(directory: Path, extension: str) -> Generator[Path, None, None]:
     """
     Searches for files with a specific extension in a directory recursively.
-    
+
     Args:
-        directory (Path): Directory to search in.
-        extension (str): File extension to look for (e.g. '.py' or 'py').
-        
+        directory (Path): The root directory to start searching from.
+        extension (str): The file extension to look for (e.g., '.txt').
+
     Yields:
-        Path: Path object of found file.
+        Path: The path to each matching file found.
     """
     directory = Path(directory)
     if not directory.exists():
@@ -38,18 +37,17 @@ def search_files(directory: Path, extension: str) -> Generator[Path, None, None]
 
 if __name__ == "__main__":
     try:
-        target_dir = input("Directory to search: ")
-        ext = input("Extension (e.g. txt): ")
-        
-        if target_dir and ext:
-            found_count = 0
-            for file_path in search_files(Path(target_dir), ext):
-                print(f"{Colors.GREEN}[+] {file_path}{Colors.RESET}")
-                found_count += 1
-            
-            print(f"\n{Colors.HEADER}Total found: {found_count}{Colors.RESET}")
-        else:
-            print("Invalid input.")
-            
+        target_dir_str = input("Directory to search: ")
+        target_dir = Path(target_dir_str)
+        ext = input("Extension (e.g., .py): ")
+
+        found_any = False
+        for file_path in search_files(target_dir, ext):
+            print(f"Found: {file_path}")
+            found_any = True
+
+        if not found_any:
+            print("No files found.")
+
     except KeyboardInterrupt:
         print("\nAborted.")

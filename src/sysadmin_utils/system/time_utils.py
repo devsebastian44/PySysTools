@@ -1,28 +1,39 @@
 import os
 import time
-import datetime
+from datetime import datetime
 
 
-def modificar_fecha_carpeta(ruta_carpeta, nueva_fecha):
+def modify_file_time(path: str, date_str: str):
     """
     Modifies the access and modification time of a file or folder.
+    Format: 'YYYY-MM-DD HH:MM:SS'
     """
-    # Convierte la nueva fecha en formato de tiempo de época (timestamp).
-    nueva_fecha_tiempo = time.mktime(nueva_fecha.timetuple())
+    if not os.path.exists(path):
+        print(f"Error: {path} not found.")
+        return
 
-    # Modifica la fecha de acceso y modificación de la carpeta o archivo.
-    os.utime(ruta_carpeta, (nueva_fecha_tiempo, nueva_fecha_tiempo))
-    print("Fecha de creación modificada con éxito.")
+    try:
+        # Convert string to epoch time
+        dt = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+        epoch = time.mktime(dt.timetuple())
+
+        # Update times
+        os.utime(path, (epoch, epoch))
+        print(f"Successfully updated timestamp for {path} to {date_str}")
+    except ValueError:
+        print("Error: Invalid date format. Use 'YYYY-MM-DD HH:MM:SS'")
+    except Exception as e:
+        print(f"Error modifying time: {e}")
 
 
 if __name__ == "__main__":
-    # Example usage
-    # Ruta actual del archivo o carpeta.
-    ruta = 'D:\\Descargas\\Carpeta'
-    # Nueva fecha de creación (ejemplo: 4 de junio de 2023 a las 10:19 PM).
-    fecha = datetime.datetime(2023, 6, 4, 22, 19)
-    
-    if os.path.exists(ruta):
-        modificar_fecha_carpeta(ruta, fecha)
-    else:
-        print(f"Path not found: {ruta}")
+    # List files in current directory to help user
+    print("Current files:")
+    for f in os.listdir("."):
+        print(f" - {f}")
+
+    target = input("\nEnter file or folder name: ").strip()
+    new_date = input("Enter new date (YYYY-MM-DD HH:MM:SS): ").strip()
+
+    if target and new_date:
+        modify_file_time(target, new_date)
