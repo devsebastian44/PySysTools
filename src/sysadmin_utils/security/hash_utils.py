@@ -19,7 +19,7 @@ def calculate_file_hash(file_path: Path, algorithm: str = "sha256") -> str:
         if algorithm == "sha256":
             hasher = hashlib.sha256()
         elif algorithm == "md5":
-            hasher = hashlib.md5()
+            hasher = hashlib.md5(usedforsecurity=False)  # nosec B324
         else:
             raise ValueError("Unsupported algorithm")
 

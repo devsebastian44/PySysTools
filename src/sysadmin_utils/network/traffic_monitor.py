@@ -20,7 +20,8 @@ def get_size(bytes_val: int) -> str:
 
 def clear_screen():
     """Clears the console screen."""
-    os.system("cls" if os.name == "nt" else "clear")
+    import subprocess
+    subprocess.run(["cls"] if os.name == "nt" else ["clear"], shell=False)
 
 
 def monitor_traffic(delay: float = 1.0):

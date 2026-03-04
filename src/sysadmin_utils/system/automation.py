@@ -3,7 +3,8 @@ import os
 
 def clear_screen():
     """Clears the terminal screen."""
-    os.system("cls" if os.name == "nt" else "clear")
+    import subprocess
+    subprocess.run(["cls"] if os.name == "nt" else ["clear"], shell=False)
 
 
 def interactive_menu():

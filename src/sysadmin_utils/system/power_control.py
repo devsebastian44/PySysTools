@@ -6,10 +6,11 @@ def shutdown_system(delay: int = 60):
     Schedules a system shutdown.
     """
     print(f"System will shutdown in {delay} seconds.")
+    import subprocess
     if os.name == "nt":
-        os.system(f"shutdown /s /t {delay}")
+        subprocess.run(["shutdown", "/s", "/t", str(delay)], shell=False)
     else:
-        os.system(f"sudo shutdown -h +{delay // 60}")
+        subprocess.run(["sudo", "shutdown", "-h", f"+{delay // 60}"], shell=False)
 
 
 def cancel_shutdown():
@@ -17,10 +18,11 @@ def cancel_shutdown():
     Cancels a scheduled shutdown.
     """
     print("Canceling scheduled shutdown...")
+    import subprocess
     if os.name == "nt":
-        os.system("shutdown /a")
+        subprocess.run(["shutdown", "/a"], shell=False)
     else:
-        os.system("sudo shutdown -c")
+        subprocess.run(["sudo", "shutdown", "-c"], shell=False)
 
 
 if __name__ == "__main__":

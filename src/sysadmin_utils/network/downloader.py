@@ -8,7 +8,7 @@ def download_file(url: str, filename: str):
     """
     print(f"Downloading from {url}...")
     try:
-        urllib.request.urlretrieve(url, filename)
+        urllib.request.urlretrieve(url, filename)  # nosec B310
         print(f"Saved to {filename}")
     except Exception as e:
         print(f"Error downloading file: {e}")

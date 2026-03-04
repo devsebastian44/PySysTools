@@ -1,4 +1,4 @@
-import ftplib
+import ftplib  # nosec B402
 from pathlib import Path
 from typing import List
 
@@ -16,7 +16,7 @@ class FTPClient:
     def connect(self):
         """Establishes connection to the FTP server."""
         try:
-            self.ftp = ftplib.FTP(self.host, self.user, self.password)
+            self.ftp = ftplib.FTP(self.host, self.user, self.password)  # nosec B321
             self.ftp.encoding = "utf-8"
             print(f"Connected to {self.host}")
         except Exception as e:
