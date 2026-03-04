@@ -5,27 +5,33 @@ from pathlib import Path
 # Add src to python path to allow running this script directly if needed
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
+# flake8: noqa: E402
 from src.sysadmin_utils.utils.config import APP_NAME, VERSION, Colors
 from src.sysadmin_utils.security import password_manager, malware_scanner, hash_utils
 from src.sysadmin_utils.network import traffic_monitor, connectivity, active_connections, downloader, samba_enum
 from src.sysadmin_utils.network.ftp import FTPClient
-from src.sysadmin_utils.system import formatting, diff_checker
+from src.sysadmin_utils.system import formatting
 from src.sysadmin_utils.data import file_search
 from src.sysadmin_utils.ui import screenshot
 
+
 def main():
-    parser = argparse.ArgumentParser(description=f"{APP_NAME} - System Administration Utilities")
+    parser = argparse.ArgumentParser(
+        description=f"{APP_NAME} - System Administration Utilities")
     parser.add_argument("--version", action="version", version=f"{APP_NAME} {VERSION}")
     
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
     
     # Password Generator
-    pwd_parser = subparsers.add_parser("gen-pass", help="Generate a secure password")
-    pwd_parser.add_argument("-l", "--length", type=int, default=16, help="Password length")
+    pwd_parser = subparsers.add_parser(
+        "gen-pass", help="Generate a secure password")
+    pwd_parser.add_argument(
+        "-l", "--length", type=int, default=16, help="Password length")
     pwd_parser.add_argument("--no-symbols", action="store_true", help="Exclude symbols")
     
     # Malware Scanner
-    scan_parser = subparsers.add_parser("scan-malware", help="Scan a directory for malware")
+    scan_parser = subparsers.add_parser(
+        "scan-malware", help="Scan a directory for malware")
     scan_parser.add_argument("path", help="Path to scan")
     
     # Hash Check
@@ -97,10 +103,12 @@ def main():
             print(f"{c['Process Name']} ({c['Process ID']}) -> {c['Remote Address']}")
 
     elif args.command == "download":
-        downloader.download_file(args.url, args.path) # Assuming download_file function
+        # Assuming download_file function
+        downloader.download_file(args.url, args.path)
 
     elif args.command == "samba-enum":
-        samba_enum.enumerate_shares(args.target) # Assuming enumerate_shares function
+        # Assuming enumerate_shares function
+        samba_enum.enumerate_shares(args.target)
 
     elif args.command == "organize":
         if args.watch:
@@ -116,7 +124,8 @@ def main():
         print(f"Found {count} files.")
 
     elif args.command == "screenshot":
-        screenshot.take_screenshot(args.output) # Assuming take_screenshot function
+        # Assuming take_screenshot function
+        screenshot.take_screenshot(args.output)
         
     elif args.command == "ftp":
         client = FTPClient(args.host, args.user, args.password)

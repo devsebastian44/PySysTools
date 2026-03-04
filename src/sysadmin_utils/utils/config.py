@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 # Base directory of the project
@@ -15,6 +14,7 @@ LOGS_DIR.mkdir(exist_ok=True)
 # Application settings
 APP_NAME = "PySysTools"
 VERSION = "1.0.0"
+
 
 # Color codes for terminal output
 class Colors:

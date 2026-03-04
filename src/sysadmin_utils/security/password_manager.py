@@ -1,7 +1,6 @@
 import string
 import secrets
-from pathlib import Path
-from typing import Optional
+
 
 try:
     from ..utils.config import Colors
@@ -11,6 +10,7 @@ except ImportError:
         GREEN = '\033[32m'
         RESET = '\033[39m'
         HEADER = '\033[95m'
+
 
 def generate_password(length: int = 16, use_symbols: bool = True) -> str:
     """
@@ -30,6 +30,7 @@ def generate_password(length: int = 16, use_symbols: bool = True) -> str:
     password = ''.join(secrets.choice(characters) for _ in range(length))
     return password
 
+
 def save_password(password: str, file_path: str = "clave.key") -> None:
     """Saves the password to a file."""
     try:
@@ -38,6 +39,7 @@ def save_password(password: str, file_path: str = "clave.key") -> None:
         print(f"{Colors.GREEN}Password saved to {file_path}{Colors.RESET}")
     except IOError as e:
         print(f"Error saving password: {e}")
+
 
 if __name__ == "__main__":
     print(f"{Colors.HEADER}--- Secure Password Generator ---{Colors.RESET}")

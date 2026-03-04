@@ -1,17 +1,18 @@
 import unittest
-from src.sysadmin_utils.security import password_manager, hash_utils
 from pathlib import Path
+from src.sysadmin_utils.security import password_manager, hash_utils
+
 
 class TestSecurity(unittest.TestCase):
-    
+
     def test_password_length(self):
         """Test that the generated password has the correct length."""
         pwd = password_manager.generate_password(length=20)
         self.assertEqual(len(pwd), 20)
-        
+
     def test_password_complexity(self):
         """Test that password contains different character types."""
-        pwd = password_manager.generate_password(length=50, symbols=True)
+        pwd = password_manager.generate_password(length=50, use_symbols=True)
         self.assertTrue(any(c.isupper() for c in pwd))
         self.assertTrue(any(c.islower() for c in pwd))
         self.assertTrue(any(c.isdigit() for c in pwd))
@@ -24,20 +25,16 @@ class TestSecurity(unittest.TestCase):
         content = b"SysAdminUtils"
         with open(tmp_path, "wb") as f:
             f.write(content)
-            
+
         try:
-            # Hash of "SysAdminUtils"
-            # echo -n "SysAdminUtils" | sha256sum
-            expected_hash = "6a5c138g..." # wait, let's just calc it or check length
-            # Actually better to just check it returns a valid hex string of length 64
+            # Hash of "SysAdminUtils" should be a valid hex string of length 64
             file_hash = hash_utils.calculate_file_hash(tmp_path)
             self.assertEqual(len(file_hash), 64)
-            # Known hash for "SysAdminUtils" is actually:
-            # 8c0d3a... let's just check length and non-empty for now to keep it simple and robust
             self.assertTrue(file_hash)
         finally:
             if tmp_path.exists():
                 tmp_path.unlink()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,5 @@
 from pathlib import Path
-from typing import List, Generator
-import sys
+from typing import Generator
 
 try:
     from ..utils.config import Colors
@@ -9,6 +8,7 @@ except ImportError:
         GREEN = '\033[32m'
         RESET = '\033[39m'
         HEADER = '\033[95m'
+
 
 def search_files(directory: Path, extension: str) -> Generator[Path, None, None]:
     """
@@ -29,11 +29,12 @@ def search_files(directory: Path, extension: str) -> Generator[Path, None, None]
     # Normalize extension
     if not extension.startswith("."):
         extension = f".{extension}"
-    
-    print(f"{Colors.HEADER}Searching for *{extension} in {directory}...{Colors.RESET}")
-    
+    header_msg = f"{Colors.HEADER}Searching for *{extension} in {directory}...{Colors.RESET}"
+    print(header_msg)
+
     for path in directory.rglob(f"*{extension}"):
         yield path
+
 
 if __name__ == "__main__":
     try:

@@ -1,11 +1,13 @@
 import shutil
 import time
+import os
 from pathlib import Path
 from typing import Dict
 
 # Extension mapping
 EXTENSIONS: Dict[str, str] = {
-    "jpg": "images", "jpeg": "images", "png": "images", "ico": "images", "gif": "images", "svg": "images",
+    "jpg": "images", "jpeg": "images", "png": "images", "ico": "images",
+    "gif": "images", "svg": "images",
     "sql": "sql",
     "exe": "programs", "msi": "programs",
     "pdf": "pdf",
@@ -25,6 +27,7 @@ EXTENSIONS: Dict[str, str] = {
     "iso": "iso",
 }
 
+
 def organize_directory(path: Path, verbose: bool = False):
     """
     Organizes files in the specified directory into subfolders based on extensions.
@@ -41,14 +44,14 @@ def organize_directory(path: Path, verbose: bool = False):
         if file_path.is_file():
             # Get extension without dot
             extension = file_path.suffix.lower().lstrip('.')
-            
+
             if extension in EXTENSIONS:
                 folder_name = EXTENSIONS[extension]
                 target_folder = path / folder_name
-                
+
                 # Create folder if it doesn't exist
                 target_folder.mkdir(exist_ok=True)
-                
+
                 # Move file
                 target_path = target_folder / file_path.name
                 try:
@@ -58,11 +61,12 @@ def organize_directory(path: Path, verbose: bool = False):
                 except Exception as e:
                     print(f"Error moving {file_path.name}: {e}")
 
+
 def watch_directory(path: Path, interval: int = 5):
     """
     Continuously watches and organizes a directory.
     """
-    print(f"Watching {path} directly every {interval} seconds... (Ctrl+C to stop)")
+    print(f"Watching {path} every {interval} seconds... (Ctrl+C to stop)")
     try:
         while True:
             organize_directory(path)
@@ -70,12 +74,17 @@ def watch_directory(path: Path, interval: int = 5):
     except KeyboardInterrupt:
         print("\nStopping watch.")
 
+
 if __name__ == "__main__":
     import sys
-    
-    target_dir = input("Directory to organize: ") if len(sys.argv) < 2 else sys.argv[1]
-    
+
+    # Get directory from args or input
+    if len(sys.argv) > 1:
+        target_dir = sys.argv[1]
+    else:
+        target_dir = input("Directory to organize: ").strip()
+
     if target_dir:
-        watch_directory(target_dir)
+        organize_directory(Path(target_dir), verbose=True)
     else:
         print("No directory specified.")

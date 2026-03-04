@@ -1,6 +1,6 @@
-import os  # Biblioteca estándar de Python para funciones del sistema operativo.
 import tkinter as tk  # Biblioteca para crear interfaces gráficas de usuario.
 from tkinter import filedialog  # Módulo de tkinter para cuadros de diálogo.
+
 
 # Función para abrir un cuadro de diálogo para seleccionar un archivo.
 # Permite al usuario elegir un archivo desde su sistema de archivos.
@@ -12,6 +12,7 @@ def abrir_archivo():
     )
     print("Archivo seleccionado:", archivo)  # Imprime la ruta del archivo seleccionado.
 
+
 # Función para abrir un cuadro de diálogo para seleccionar un directorio.
 # Permite al usuario elegir una carpeta desde su sistema de archivos.
 def abrir_directorio():
@@ -20,6 +21,7 @@ def abrir_directorio():
         title="Seleccionar directorio"  # Título del cuadro de diálogo.
     )
     print("Directorio seleccionado:", directorio)  # Imprime la ruta del directorio seleccionado.
+
 
 # Crear la ventana principal de la aplicación.
 ventana = tk.Tk()  # Inicializa la ventana principal.

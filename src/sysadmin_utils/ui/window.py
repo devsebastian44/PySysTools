@@ -1,13 +1,13 @@
-import tkinter as tk  # Importa la librería Tkinter para la creación de interfaces gráficas
+import tkinter as tk
 
-# Crear una ventana principal
-ventana = tk.Tk()
 
-# Configura el título de la ventana
-ventana.title("Hola Mundo")
+def create_simple_window():
+    """Creates a basic GUI window."""
+    ventana = tk.Tk()
+    ventana.title("Hola Mundo")
+    ventana.geometry("400x300")
+    ventana.mainloop()
 
-# Define el tamaño de la ventana (400x300 píxeles)
-ventana.geometry("400x300")
 
-# Inicia el bucle principal de la aplicación para que la ventana permanezca abierta
-ventana.mainloop()
+if __name__ == "__main__":
+    create_simple_window()

@@ -53,6 +53,14 @@ El flujo oficial se apoya en el script `scripts/publish_public.ps1` que funciona
 4. **Despliegue GitHub:** Empuja esta versión completamente sanitizada (pero funcional a nivel demostrativo) de forma forzada a GitHub.
 5. **Restauración:** Devuelve el espacio de trabajo local al estado de laboratorio privado intacto.
 
+
+## 🚀 Instalación y Acceso
+
+> [!IMPORTANT]
+> El repositorio completo con todo el código funcional está disponible en **GitLab** para acceso completo.
+
+https://gitlab.com/group-programming-lab/PySysTools.git
+
 ## 🚀 Uso General del CLI
 
 El proyecto emplea un CLI orquestador:

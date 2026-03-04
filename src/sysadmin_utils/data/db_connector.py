@@ -1,12 +1,13 @@
 import mysql.connector
 import os
-from typing import Optional, List, Any
+from typing import List, Any
 
 class DatabaseConnector:
     """
     Handles database connections and queries.
     """
-    def __init__(self, host: str = None, user: str = None, password: str = None, database: str = None):
+    def __init__(self, host: str = None, user: str = None,
+                 password: str = None, database: str = None):
         # Use env vars or defaults (WARNING: Defaults are for dev only)
         self.host = host or os.getenv("DB_HOST", "mysql-5707.dinaserver.com")
         self.user = user or os.getenv("DB_USER", "mouredev_read")
@@ -31,8 +32,7 @@ class DatabaseConnector:
     def execute_query(self, query: str) -> List[Any]:
         """Executes a SQL query and returns results."""
         if not self.connection:
-            self.connect()
-            
+    
         cursor = self.connection.cursor()
         try:
             cursor.execute(query)
@@ -53,6 +53,7 @@ if __name__ == "__main__":
     # Example usage
     db = DatabaseConnector()
     try:
+        db.connect() # Ensure connection is established for the example
         results = db.execute_query("SELECT * FROM `challenges` LIMIT 5")
         for row in results:
             print(row)

@@ -2,9 +2,10 @@ import psutil
 import time
 import os
 import pandas as pd
-from typing import Dict
+
 
 UPDATE_DELAY = 1  # Seconds
+
 
 def get_size(bytes_val: int) -> str:
     """
@@ -16,9 +17,11 @@ def get_size(bytes_val: int) -> str:
         bytes_val /= 1024
     return f"{bytes_val:.2f}PB"
 
+
 def clear_screen():
     """Clears the console screen."""
     os.system("cls" if os.name == "nt" else "clear")
+
 
 def monitor_traffic(delay: float = 1.0):
     """
@@ -45,7 +48,7 @@ def monitor_traffic(delay: float = 1.0):
                     "Upload Total": get_size(io_2[iface].bytes_sent),
                     "Upload Speed": f"{get_size(upload_speed / delay)}/s",
                     "Download Speed": f"{get_size(download_speed / delay)}/s",
-                    "Raw Download": download_speed # For sorting
+                    "Raw Download": download_speed  # For sorting
                 })
             
             io = io_2
@@ -60,6 +63,8 @@ def monitor_traffic(delay: float = 1.0):
                 
     except KeyboardInterrupt:
         print("\nStopping monitor...")
+    except Exception as e:
+        print(f"An unexpected error occurred during monitoring: {e}")
 
 if __name__ == "__main__":
     print("Starting Network Traffic Monitor... (Ctrl+C to stop)")

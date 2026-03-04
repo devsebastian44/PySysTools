@@ -1,5 +1,12 @@
-import calendar  # Importa el módulo `calendar` para trabajar con calendarios.
+import calendar
 
-year = 2023  # Define el año del calendario que se desea mostrar.
-month = 3  # Define el mes (marzo) del calendario que se desea mostrar.
-print(calendar.month(year, month))  # Genera y muestra el calendario del mes y año especificados.
+
+def display_monthly_calendar(year: int, month: int):
+    """Generates and shows the calendar of the specified month and year."""
+    print(calendar.month(year, month))
+
+
+if __name__ == "__main__":
+    current_year = 2023
+    current_month = 3
+    display_monthly_calendar(current_year, current_month)

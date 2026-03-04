@@ -1,7 +1,6 @@
 import hashlib
 from pathlib import Path
-import sys
-from typing import List
+
 
 try:
     from ..utils.config import Colors
@@ -12,6 +11,7 @@ except ImportError:
         HEADER = '\033[95m'
         RED = '\033[91m'
         GREEN = '\033[32m'
+
 
 def calculate_file_hash(file_path: Path, algorithm: str = "sha256") -> str:
     """Calculates the hash of a file."""
@@ -30,6 +30,7 @@ def calculate_file_hash(file_path: Path, algorithm: str = "sha256") -> str:
     except FileNotFoundError:
         return ""
 
+
 def compare_hash_with_list(file_hash: str, hash_list_path: Path) -> bool:
     """Checks if a hash exists in a file (one hash per line)."""
     if not hash_list_path.exists():
@@ -44,6 +45,7 @@ def compare_hash_with_list(file_hash: str, hash_list_path: Path) -> bool:
     except Exception as e:
         print(f"Error reading hash list: {e}")
         return False
+
 
 def interactive_check():
     """Interactive CLI for hash checking."""
@@ -61,13 +63,15 @@ def interactive_check():
     computed_hash = calculate_file_hash(path)
     print(f"\n{Colors.HEADER}SHA-256:{Colors.RESET} {computed_hash}")
     
-    hash_db = input("Enter path to hash database (optional, press Enter to skip): ").strip()
     if hash_db:
         db_path = Path(hash_db)
         if compare_hash_with_list(computed_hash, db_path):
-             print(f"{Colors.RED}[!] Hash found in database (Potentially Malicious){Colors.RESET}")
+            msg = "[!] Hash found in database (Potentially Malicious)"
+            print(f"{Colors.RED}{msg}{Colors.RESET}")
         else:
-             print(f"{Colors.GREEN}[+] Hash not found in database.{Colors.RESET}")
+            msg = "[+] Hash not found in database."
+            print(f"{Colors.GREEN}{msg}{Colors.RESET}")
+
 
 if __name__ == "__main__":
     interactive_check()
