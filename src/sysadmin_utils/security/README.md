@@ -11,7 +11,7 @@ Generador de contraseñas criptográficamente seguras.
 
 **Uso desde código:**
 ```python
-from src.sysadmin_utils.security import password_manager
+from sysadmin_utils.security import password_manager
 pwd = password_manager.generate_password(length=20)
 ```
 

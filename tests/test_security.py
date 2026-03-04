@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from src.sysadmin_utils.security import password_manager, hash_utils
+from sysadmin_utils.security import password_manager, hash_utils
 
 
 class TestSecurity(unittest.TestCase):

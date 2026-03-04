@@ -2,18 +2,15 @@ import argparse
 import sys
 from pathlib import Path
 
-# Add src to python path to allow running this script directly if needed
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
 # flake8: noqa: E402
-from src.sysadmin_utils.utils.config import APP_NAME, VERSION, Colors
-from src.sysadmin_utils.security import password_manager, malware_scanner, hash_utils
-from src.sysadmin_utils.network import traffic_monitor, connectivity, active_connections, \
+from sysadmin_utils.utils.config import APP_NAME, VERSION, Colors
+from sysadmin_utils.security import password_manager, malware_scanner, hash_utils
+from sysadmin_utils.network import traffic_monitor, connectivity, active_connections, \
     downloader, samba_enum
-from src.sysadmin_utils.network.ftp import FTPClient
-from src.sysadmin_utils.system import formatting
-from src.sysadmin_utils.data import file_search
-from src.sysadmin_utils.ui import screenshot
+from sysadmin_utils.network.ftp import FTPClient
+from sysadmin_utils.system import formatting
+from sysadmin_utils.data import file_search
+from sysadmin_utils.ui import screenshot
 
 
 def main():

@@ -3,8 +3,8 @@ Ejemplo de uso programático de la librería sysadmin_utils.
 Este script muestra cómo importar usar las herramientas en tus propios scripts.
 """
 
-from src.sysadmin_utils.security import password_manager
-from src.sysadmin_utils.system import formatting
+from sysadmin_utils.security import password_manager
+from sysadmin_utils.system import formatting
 from pathlib import Path
 
 def main():

@@ -11,7 +11,7 @@ Sistema de notificaciones nativas de Windows (Toast).
 
 **Ejemplo de uso:**
 ```python
-from src.sysadmin_utils.ui.notifications import send_notification
+from sysadmin_utils.ui.notifications import send_notification
 
 send_notification(
     title="Alerta de Sistema",
