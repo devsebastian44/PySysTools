@@ -35,24 +35,32 @@ La arquitectura sigue principios de Clean Code y está claramente estructurada p
 └── .gitlab-ci.yml    # Pipeline CI/CD Privado (Linting, Unit Testing, SAST)
 ```
 
-## 🔄 Flujo DevSecOps y Separación de Entornos (GitLab -> GitHub)
+## 🔄 Flujo DevSecOps y Separación de Entornos (GitLab Laboratorio Público -> GitHub Portafolio)
 
-Este repositorio emplea una estrategia avanzada de separación de entornos mitigando el riesgo de fuga de datos o exposición de componentes críticos:
+Este repositorio emplea una estrategia de separación de entornos optimizada para diferentes casos de uso:
 
-### GitLab (Laboratorio Privado - Source of Truth)
-En **GitLab** reside el entorno completo de trabajo. Esto incluye ramas de desarrollo, pruebas unitarias (`tests/`), scripts de integración privada, configuraciones reales, pipeline de CI/CD activo (`.gitlab-ci.yml`) y automatización profunda.
+### GitLab (Laboratorio Público Completo)
+En **GitLab** reside el entorno completo de trabajo con todo el código fuente. Este repositorio es público y funciona como el laboratorio principal donde se encuentra:
+- Todo el código fuente completo y funcional
+- Ramas de desarrollo y experimentación
+- Pruebas unitarias y de integración (`tests/`)
+- Scripts de automatización y configuraciones
+- Pipeline de CI/CD activo (`.gitlab-ci.yml`)
+- Documentación técnica completa
+- Ejemplos de integración
 
-### GitHub (Portafolio Público Sanitizado)
-En **GitHub (rama `public`)** reside la versión depurada y presentable. Se excluyen pruebas, infraestructura privada, secretos y configuraciones.
+### GitHub (Portafolio Optimizado)
+En **GitHub** reside una versión optimizada para portafolio y demostraciones rápidas. Esta versión está diseñada para:
+- Presentación profesional del proyecto
+- Demostraciones ligeras sin dependencias complejas
+- Acceso rápido a las funcionalidades principales
+- Integración sencilla en otros proyectos
 
-### `publish_public.ps1`: Automatización de Sanitización
-El flujo oficial se apoya en el script `scripts/publish_public.ps1` que funciona como un guardián de publicación:
-1. **Verificación & Limpieza:** Asegura que estemos en la rama principal limpios e indexa con GitLab.
-2. **Aislamiento de Rama:** Crea una rama temporal (`public`).
-3. **Purgado de Seguridad:** Elimina forzosamente carpetas críticas del caché del repositorio (`tests/`, `configs/`, CI interno) para que no sean expuestas.
-4. **Despliegue GitHub:** Empuja esta versión completamente sanitizada (pero funcional a nivel demostrativo) de forma forzada a GitHub.
-5. **Restauración:** Devuelve el espacio de trabajo local al estado de laboratorio privado intacto.
-
+### Estrategia de Sincronización
+El flujo mantiene ambos repositorios actualizados mediante:
+1. **Desarrollo Principal:** Todo el trabajo se realiza en GitLab
+2. **Publicación Automática:** Script `publish_public.ps1` sincroniza las versiones optimizadas
+3. **Mantenimiento:** GitHub se mantiene como una vitrina del proyecto, mientras que GitLab es el ecosistema completo de desarrollo
 
 ## 🚀 Instalación y Acceso
 
@@ -79,6 +87,3 @@ sysadmin_utils net-monitor
 
 ## 🤝 Contribución
 Las contribuciones se aceptan mediante PRs en la rama pública (o interna si tienes acceso al GitLab original). Se aplicará linter `flake8`, pruebas con `pytest` y revisión estática de seguridad (`bandit`).
-
-## 📄 Licencia
-Distribuido bajo la Licencia MIT.
